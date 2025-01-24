@@ -5,3 +5,6 @@ print(newlist)
 
 newlist2 = list(thislist)
 print(newlist2)
+
+newlist3 = thislist[:]
+print(newlist3)
