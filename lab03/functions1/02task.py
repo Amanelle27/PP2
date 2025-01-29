@@ -1,6 +1,6 @@
 def fahrenheitToCelsius(f):
-    c = (5 - 9) * (f - 32)
+    c = (5 / 9) * (f - 32)
     return c
 
-f = float(input())
-print(fahrenheitToCelsius(f))
+f = float(input("Enter Fahrenheits: "))
+print("It's", fahrenheitToCelsius(f), "celsius")

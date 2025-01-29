@@ -13,6 +13,8 @@ def filter_prime(inputList):
             resList.append(x)
     return resList
 
-listIn = list(input().split())
-print(filter_prime(listIn))
+listIn = list(input("Enter numbers separated by spaces: ").split())
+print("Prime numbers: ")
+for x in filter_prime(listIn):
+    print (x)
 
