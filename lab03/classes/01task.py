@@ -1,5 +1,5 @@
 class Strings01:
-    def __innit__(self):
+    def __init__(self):
         self.inputStr = ""
     def getString(self):
         self.inputStr = input()
@@ -7,5 +7,7 @@ class Strings01:
         print(self.inputStr.upper())
 
 test = Strings01()
-test.getString()
+test.getString() #String01.getString(test)
 test.printString()
+print(test.inputStr)
+
