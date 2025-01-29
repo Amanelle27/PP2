@@ -1,18 +1,22 @@
 class Shape:
     def __init__(self):
         self.area = 0
-    def area(self):
+    def findArea(self):
         return self.area
     
 class Square(Shape):
     def __init__(self, length):
-        super().__init__(self)
+        super().__init__()
         self.length = length
 
-    def area(self):
+    def findArea(self):
         self.area = self.length * self.length
         return self.area
-    
 
 
-        
+# Let's test an area method
+a = int(input("Enter length of a square: "))
+sqr = Square(a)
+print("Default Area:", sqr.area)
+sqr.findArea()
+print("Default Area:", sqr.area)
