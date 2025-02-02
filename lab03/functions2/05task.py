@@ -94,5 +94,5 @@ def avScoreOfXcategory(category):
     return float(sum/cnt)
 
 
-category = input("Enter a category: ")
+category = input("Enter a category ")
 print("Average IMDB score of movies this category:", avScoreOfXcategory(category))
