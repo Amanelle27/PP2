@@ -80,6 +80,14 @@ movies = [
 
 
 def avIMDBscore(listIn):
+    sum = float(0)
+    cnt = 0
     for x in movies:
         for y in listIn:
-            if
+            if x["name"] == y:
+                sum += x["imdb"]
+                cnt += 1
+    return float(sum/cnt)
+
+listIn = list(input("Enter movies' names separated by spaces: ").split())
+print("Their average IMDB score:", avIMDBscore(listIn))
