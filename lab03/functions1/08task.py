@@ -1,7 +1,15 @@
 def spy_game(nums):
     for i in range(0, len(nums)-2):
-        if int(nums[i]) == 0 and int(nums[i+1]) == 0 and int(nums[i+2]) == 7:
-            return True
+        if int(nums[i]) == 0:
+            for j in range(i+1, len(nums)-1):
+                if int(nums[j]) == 7:
+                    return False
+                elif int(nums[j]) == 0:
+                    for k in range(j+1, len(nums)):
+                        if int(nums[k]) == 0:
+                            return False
+                        elif int(nums[k]) == 7:
+                            return True
     return False
 
 nums = list((input("Enter digits separated by spaces: ").split()))
