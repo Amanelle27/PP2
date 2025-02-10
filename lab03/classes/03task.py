@@ -1,3 +1,4 @@
+import math
 class Shape:
     def __init__(self):
         self.area = 0
@@ -12,6 +13,15 @@ class Rectangle(Shape):
     def findArea(self):
         self.area = self.length * self.width
         return self.area
+    
+class Circle(Shape):
+    def __init__(self, radius):
+        super().__init__()
+        self.radius = radius
+
+    def findArea(self):
+        self.area = math.pi * self.radius**2
+        
 
 # Let's test an area method
 a = int(input("Enter length: "))
@@ -20,3 +30,4 @@ reck = Rectangle(a, b)
 print("Default Area:", reck.area)
 reck.findArea()
 print("Calculated Area:", reck.area)
+
