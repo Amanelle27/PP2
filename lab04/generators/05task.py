@@ -5,5 +5,6 @@ def allnums(n):
         i -= 1
 
 num = int(input("Enter a number: "))
+
 for x in allnums(num):
     print(x)
