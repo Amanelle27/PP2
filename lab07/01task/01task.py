@@ -1,15 +1,7 @@
 import pygame
-import  datetime
+import datetime
 import math
 
-def rounding(number):
-    integer_part = math.floor(number)  
-    decimal_part = number - integer_part  
-
-    if decimal_part < 0.5:
-        return math.floor(number)  
-    else:
-        return math.ceil(number) 
 
 pygame.init()
 
@@ -38,20 +30,19 @@ while True:
 
     date = datetime.datetime.now()
 
-    second = rounding(date.second + date.microsecond / 1_000_000)
+    second = math.ceil(date.second + date.microsecond / 1_000_000)
     minute = date.minute + second / 60  
 
     angle_sec = 360 - (second * 6)  
     angle_min = 360 - (minute * 6)  
-
-    rotated_sec = pygame.transform.rotate(sec_hand, angle_sec)
-    sec_rect = rotated_sec.get_rect(center=(center_x, center_y))
-    screen.blit(rotated_sec, sec_rect.topleft)
 
     
     rotated_min = pygame.transform.rotate(min_hand, angle_min)
     min_rect = rotated_min.get_rect(center=(center_x, center_y))
     screen.blit(rotated_min, min_rect.topleft)
     
+    rotated_sec = pygame.transform.rotate(sec_hand, angle_sec)
+    sec_rect = rotated_sec.get_rect(center=(center_x, center_y))
+    screen.blit(rotated_sec, sec_rect.topleft)
 
     pygame.display.flip()
