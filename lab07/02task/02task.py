@@ -76,6 +76,8 @@ while True:
                 play_song()
 
             elif event.key == pygame.K_LEFT:
+                current_song = (current_song - 1) % len(songs)  
+                paused = False 
                 play_song()
 
     if not pygame.mixer.music.get_busy() and not paused:
