@@ -16,6 +16,9 @@ GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+#Font
+font_small = pygame.font.SysFont("Verdana", 20)
+
 #Images
 player_img = pygame.image.load("Player.png")
 enemy_img = pygame.image.load("Enemy.png")
@@ -36,7 +39,10 @@ screen.blit(background_img, (0, 0))
 
 #Speeds
 player_speed = 5
-enemy_speed = 10
+enemy_speed = 6
+
+#Score var
+score = 0
 
 #Player class
 class Player(pygame.sprite.Sprite):
@@ -61,7 +67,7 @@ class Player(pygame.sprite.Sprite):
     
 
         
-
+#Enemy class
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -70,8 +76,10 @@ class Enemy(pygame.sprite.Sprite):
         self.random_rect()
 
     def moving(self):
+        global score
         self.rect.move_ip(0, enemy_speed)
         if self.rect.bottom > h:
+            score += 1
             self.random_rect()
 
     def random_rect(self):
@@ -89,14 +97,22 @@ enemy_sprites = pygame.sprite.Group()
 all_sprites.add([player, enemy])
 enemy_sprites.add([enemy])
 
+#Adding a new User event 
+INC_SPEED = pygame.USEREVENT + 1
+pygame.time.set_timer(INC_SPEED, 1000)
+
 #Game Loop
 running = True
 while running:
     for event in pygame.event.get():
+        if event.type == INC_SPEED:
+            enemy_speed += 1
         if event.type == QUIT:
             pygame.quit()
 
     screen.blit(background_img, (0, 0))
+    scores = font_small.render(str(score), True, BLACK)
+    screen.blit(scores, (10, 10))
 
     player.moving()
     enemy.moving()
