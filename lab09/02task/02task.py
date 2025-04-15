@@ -29,6 +29,8 @@ food_cnt = 0
 level_cnt = 1
 snake_speed = 1
 
+
+
 #Game Over picture
 gameover_img = pygame.image.load("gameover.jpg")
 gameover_img = pygame.transform.scale(gameover_img, (450, 361))
@@ -148,6 +150,7 @@ class Snake:
         self.dx = 1
         self.dy = 0
         self.collision = False
+        self.timestamp2 = time.time()
     
     #Each cell repeats previous cell's position to move
     def moving(self):
@@ -179,6 +182,10 @@ class Snake:
         for segment in self.body[1:]:
             pygame.draw.rect(screen, color_palette.colorYELLOW, (segment.x * cell, segment.y * cell, cell, cell))
 
+    def growing_segment(self):
+        head = self.body[0]
+        self.body.append(Point(head.x, head.y))
+
     def food_collision(self, food):
         global food_cnt, level_cnt, snake_speed, FPS
         head = self.body[0]
@@ -186,6 +193,7 @@ class Snake:
             #Grows with each eaten piece
             for i in range (0, food.weight):
                 self.body.append(Point(head.x, head.y))
+            self.timestamp2 = time.time()
             #Food counter
             food_cnt += food.weight
             if food_cnt % 5 == 0:
@@ -245,6 +253,9 @@ while True:
     #Generates new food every 7 seconds
     if time.time() - food.timestamp > 7:
             food.random_pos()
+    if time.time() - snake.timestamp2 > 5:
+            snake.growing_segment()
+            snake.timestamp2 = time.time()
             
 
     #We move the snake 
