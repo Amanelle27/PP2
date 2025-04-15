@@ -135,13 +135,13 @@ class Wall:
 
 
     def new_wall(self, lvl_score):
-        if lvl_score == 2:
+        if lvl_score >= 2:
             self.walls.extend([
                 Point(15, 9),
                 Point(16, 9),
             ])
 
-        elif lvl_score == 3:
+        if lvl_score >= 3:
             self.walls.extend([
                 Point(2, 5),
                 Point(3, 5),
@@ -149,7 +149,7 @@ class Wall:
                 Point(3, 6),
             ])
 
-        elif lvl_score == 4:
+        if lvl_score >= 4:
             self.walls.extend([
                 Point(0, 13),
                 Point(1, 13),
@@ -157,7 +157,7 @@ class Wall:
                 Point(19, 13),
             ])
 
-        elif lvl_score == 5:
+        if lvl_score >= 5:
             self.walls.extend([
                 Point(0, 13),
                 Point(1, 13),
@@ -165,7 +165,7 @@ class Wall:
                 Point(19, 13),
             ])
 
-        elif lvl_score == 6:
+        if lvl_score >= 6:
             self.walls.extend([
                 Point(13, 2),
                 Point(13, 3),
@@ -173,7 +173,7 @@ class Wall:
                 Point(13, 5),
             ])
 
-        elif lvl_score == 7:
+        if lvl_score >= 7:
             self.walls.extend([
                 Point(9, 13),
                 Point(9, 14),
@@ -182,7 +182,7 @@ class Wall:
                 Point(11, 15),
             ])
 
-        elif lvl_score == 8:
+        if lvl_score >= 8:
             self.walls.extend([
                 Point(6, 0),
                 Point(7, 0),
@@ -242,9 +242,6 @@ class Snake:
         for segment in self.body[1:]:
             pygame.draw.rect(screen, color_palette.colorYELLOW, (segment.x * cell, segment.y * cell, cell, cell))
 
-    def growing_segment(self):
-        head = self.body[0]
-        self.body.append(Point(head.x, head.y))
 
     def food_collision(self, food):
         global food_cnt, level_cnt, snake_speed, FPS
@@ -253,7 +250,7 @@ class Snake:
             #Grows with each eaten piece
             for i in range (0, food.weight):
                 self.body.append(Point(head.x, head.y))
-            self.timestamp2 = time.time()
+
             #Food counter
             food_cnt += food.weight
             if food_cnt >= level_cnt * 7:
@@ -280,9 +277,10 @@ class Snake:
 
                 pygame.display.flip()
 
-                time.sleep(2)
+                time.sleep(1)
 
                 self.collision = True
+                return self.collision
 
 #Objects of our classes
 snake = Snake()
@@ -344,13 +342,14 @@ def save_game(score, lvl, speed):
 
 
 
+running = True
 
-
-while True:
+while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             save_game(food_cnt, level_cnt, FPS)
-            pygame.quit()
+            running = False
+            break
         #Controlling the snake by the arrow keys
         if event.type == KEYDOWN:
             if event.key == K_RIGHT:
@@ -367,9 +366,8 @@ while True:
                 snake.dy = snake_speed
             elif event.key == K_p:
                 paused = True
-                
+                print("Press CTRL + S to save your current progress")
                 while paused:
-                    print("Press CTRL + S to save your current progress")
                     for pause_event in pygame.event.get():
                         if pause_event.type == pygame.KEYDOWN:
                             if pause_event.key == pygame.K_LCTRL or pause_event.key == pygame.K_RCTRL and pause_event.key == pygame.K_s:
@@ -380,9 +378,6 @@ while True:
     #Generates new food every 7 seconds
     if time.time() - food.timestamp > 7:
             food.random_pos()
-    if time.time() - snake.timestamp2 > 5:
-            #snake.growing_segment()
-            snake.timestamp2 = time.time()
             
 
     #We move the snake 
@@ -393,9 +388,13 @@ while True:
     snake.walls_collision(walls)
 
     #Game ends if the snake collides with a wall
-    if snake.collision:
+    if snake.walls_collision(walls):
         save_game(food_cnt, level_cnt, FPS)
-        pygame.quit()
+        running = False
+        break
+
+    if not running:
+        break
 
     #We fill our screen again
     draw_grid_chess()
@@ -413,3 +412,5 @@ while True:
     screen.blit(score, (5, 35))
     pygame.display.flip()
     clock.tick(FPS)
+
+pygame.quit()
