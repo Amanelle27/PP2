@@ -394,6 +394,7 @@ while True:
 
     #Game ends if the snake collides with a wall
     if snake.collision:
+        save_game(food_cnt, level_cnt, FPS)
         pygame.quit()
 
     #We fill our screen again
