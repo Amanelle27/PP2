@@ -31,6 +31,14 @@ cur.execute("""
     )
 """)
 
+cur.execute("""
+    CREATE TABLE IF NOT EXISTS user_score_new(
+        id INT,
+        user_name VARCHAR,
+        user_scoreL INT
+    )
+""")
+
 conn.commit()
 
 
@@ -315,7 +323,17 @@ if user_exists:
         level_cnt = 1
         FPS = 5
         running = True
+    
     print("This user exists, it's current level:", level_cnt)
+    cur.execute("SELECT user_scorel FROM user_score_new WHERE user_name = %s;", (username,))
+    data = []
+    savings = cur.fetchall()
+    for row in savings:
+        data.append(row)
+   
+    print("This user exists, all its savings:")
+    for r in data:
+        print(r)
 else:
     cur.execute("INSERT INTO users (user_name) VALUES (%s)", (username,))
     conn.commit()
@@ -337,6 +355,8 @@ def save_game(score, lvl, speed):
                 SET (user_scorel, user_lvl, user_speed) = (%s, %s, %s)
                 WHERE id = %s
                 """, (score, lvl, speed, cur_user_id))
+    cur.execute("""INSERT INTO user_score_new(user_name, user_scorel)
+                    VALUES (%s, %s)""", (username, score))
     conn.commit()
     print("Current progress saved!")
 
