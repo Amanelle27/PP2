@@ -329,11 +329,12 @@ if user_exists:
     data = []
     savings = cur.fetchall()
     for row in savings:
-        data.append(row)
-   
+        data.append(row[0])
+    i = 1
     print("This user exists, all its savings:")
     for r in data:
-        print(r)
+        print(f"{i}: {r}")
+        i += 1
 else:
     cur.execute("INSERT INTO users (user_name) VALUES (%s)", (username,))
     conn.commit()
@@ -347,7 +348,7 @@ else:
     level_cnt = 1
     FPS = 5
     running = True
-
+cnt = 1
 def save_game(score, lvl, speed):
     cur.execute("SELECT users.id FROM users WHERE users.user_name = %s", (username, ))
     cur_user_id = cur.fetchone()
@@ -355,6 +356,9 @@ def save_game(score, lvl, speed):
                 SET (user_scorel, user_lvl, user_speed) = (%s, %s, %s)
                 WHERE id = %s
                 """, (score, lvl, speed, cur_user_id))
+    conn.commit()
+    #pattern = username+cnt
+    #cnt += 1
     cur.execute("""INSERT INTO user_score_new(user_name, user_scorel)
                     VALUES (%s, %s)""", (username, score))
     conn.commit()
