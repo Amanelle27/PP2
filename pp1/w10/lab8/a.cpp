@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool cmp (pair <int, int> p1, pair <int, int> p2) {
+    if (p1.first != p2.first) return p1.first < p2.first;
+    else return p1.second < p2.second;
+}
+
+int main () {
+    int n;
+    cin >> n;
+    vector <pair <int, int> > v;
+    for (int i = 0; i < n; i++) {
+        int x, y;
+        cin >> x >> y;
+        pair <int, int> p = make_pair(x, y);
+        v.push_back(p);
+    }
+    sort (v.begin(), v.end(), cmp);
+
+     for (int i = 0; i < n; i++) {
+        cout << v[i].first << ' ' << v[i].second <<endl;
+    }
+
+    return 0;
+}
